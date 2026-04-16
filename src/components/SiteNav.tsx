@@ -119,6 +119,13 @@ export function SiteNav() {
                     {l.label}
                   </Link>
                 ))}
+                <Link
+                  to={user ? dashboardTo : "/login"}
+                  onClick={() => setOpen(false)}
+                  className="mt-2 px-3 py-3 rounded-xl border border-border text-center text-sm font-medium hover:bg-muted"
+                >
+                  {user ? "Dashboard" : "Sign in"}
+                </Link>
                 <a
                   href="tel:+919784818899"
                   className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-primary-gradient text-primary-foreground px-5 py-3 text-sm font-medium"
