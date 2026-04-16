@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Menu, X, PhoneCall } from "lucide-react";
+import { Menu, X, PhoneCall, LogIn, LayoutDashboard } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "@/hooks/useAuth";
 
 const links = [
   { to: "/", label: "Home" },
@@ -13,6 +14,8 @@ const links = [
 export function SiteNav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { user, roles } = useAuth();
+  const dashboardTo = roles.includes("partner") ? "/partner/dashboard" : "/dashboard";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -62,7 +65,22 @@ export function SiteNav() {
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-2">
+            {user ? (
+              <Link
+                to={dashboardTo}
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-muted"
+              >
+                <LayoutDashboard className="h-4 w-4" /> Dashboard
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-muted"
+              >
+                <LogIn className="h-4 w-4" /> Sign in
+              </Link>
+            )}
             <a
               href="tel:+919784818899"
               className="inline-flex items-center gap-2 rounded-full bg-primary-gradient text-primary-foreground px-5 py-2.5 text-sm font-medium shadow-elegant hover:shadow-glow transition-all hover:-translate-y-0.5"
