@@ -1,8 +1,6 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { z } from "zod";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { AuthCard } from "@/components/AuthCard";
 import { GoogleButton } from "@/components/GoogleButton";
 
@@ -16,17 +14,7 @@ export const Route = createFileRoute("/register")({
   }),
 });
 
-const schema = z.object({
-  full_name: z.string().trim().min(1, "Name is required").max(100),
-  email: z.string().trim().email("Enter a valid email").max(255),
-  phone: z.string().trim().min(7, "Enter a valid phone").max(20),
-  business_name: z.string().trim().max(150).optional().or(z.literal("")),
-  gstin: z.string().trim().max(20).optional().or(z.literal("")),
-  password: z.string().min(8, "Use at least 8 characters").max(128),
-});
-
 function RegisterPage() {
-  const navigate = useNavigate();
   const [form, setForm] = useState({
     full_name: "",
     email: "",
@@ -35,41 +23,14 @@ function RegisterPage() {
     gstin: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false);
 
   function update<K extends keyof typeof form>(k: K, v: string) {
     setForm((prev) => ({ ...prev, [k]: v }));
   }
 
-  async function onSubmit(e: FormEvent) {
+  function onSubmit(e: FormEvent) {
     e.preventDefault();
-    const parsed = schema.safeParse(form);
-    if (!parsed.success) {
-      toast.error(parsed.error.issues[0].message);
-      return;
-    }
-    setLoading(true);
-    const { error } = await supabase.auth.signUp({
-      email: parsed.data.email,
-      password: parsed.data.password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/dashboard`,
-        data: {
-          full_name: parsed.data.full_name,
-          phone: parsed.data.phone,
-          business_name: parsed.data.business_name ?? "",
-          gstin: parsed.data.gstin ?? "",
-          role: "client",
-        },
-      },
-    });
-    setLoading(false);
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
-    toast.success("Account created. Welcome to Taxsafar!");
-    navigate({ to: "/dashboard" });
+    toast.success("This is a demo form — connect a backend to enable signup.");
   }
 
   return (
@@ -98,10 +59,9 @@ function RegisterPage() {
 
         <button
           type="submit"
-          disabled={loading}
-          className="w-full mt-2 rounded-xl bg-primary-gradient text-primary-foreground px-4 py-3 text-sm font-medium shadow-elegant hover:shadow-glow transition-all hover:-translate-y-0.5 disabled:opacity-60"
+          className="w-full mt-2 rounded-xl bg-primary-gradient text-primary-foreground px-4 py-3 text-sm font-medium shadow-elegant hover:shadow-glow transition-all hover:-translate-y-0.5"
         >
-          {loading ? "Creating account…" : "Create account"}
+          Create account
         </button>
 
         <div className="relative my-3">

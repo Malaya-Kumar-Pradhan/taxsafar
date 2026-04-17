@@ -1,9 +1,7 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { z } from "zod";
 import { toast } from "sonner";
 import { Briefcase } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 import { AuthCard } from "@/components/AuthCard";
 
 export const Route = createFileRoute("/partner-login")({
@@ -16,45 +14,13 @@ export const Route = createFileRoute("/partner-login")({
   }),
 });
 
-const schema = z.object({
-  email: z.string().trim().email("Enter a valid email").max(255),
-  password: z.string().min(6, "Password must be at least 6 characters").max(128),
-});
-
 function PartnerLoginPage() {
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
 
-  async function onSubmit(e: FormEvent) {
+  function onSubmit(e: FormEvent) {
     e.preventDefault();
-    const parsed = schema.safeParse({ email, password });
-    if (!parsed.success) {
-      toast.error(parsed.error.issues[0].message);
-      return;
-    }
-    setLoading(true);
-    const { data: signInData, error } = await supabase.auth.signInWithPassword(parsed.data);
-    if (error || !signInData.user) {
-      setLoading(false);
-      toast.error(error?.message ?? "Sign in failed");
-      return;
-    }
-    // Verify partner role
-    const { data: roleRows } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", signInData.user.id);
-    setLoading(false);
-    const isPartner = (roleRows ?? []).some((r) => r.role === "partner" || r.role === "admin");
-    if (!isPartner) {
-      await supabase.auth.signOut();
-      toast.error("This account is not registered as a partner.");
-      return;
-    }
-    toast.success("Welcome, partner.");
-    navigate({ to: "/partner/dashboard" });
+    toast.success("This is a demo form — connect a backend to enable partner sign in.");
   }
 
   return (
@@ -109,10 +75,9 @@ function PartnerLoginPage() {
         </div>
         <button
           type="submit"
-          disabled={loading}
-          className="w-full rounded-xl bg-primary-gradient text-primary-foreground px-4 py-3 text-sm font-medium shadow-elegant hover:shadow-glow transition-all hover:-translate-y-0.5 disabled:opacity-60"
+          className="w-full rounded-xl bg-primary-gradient text-primary-foreground px-4 py-3 text-sm font-medium shadow-elegant hover:shadow-glow transition-all hover:-translate-y-0.5"
         >
-          {loading ? "Signing in…" : "Sign in to Partner Portal"}
+          Sign in to Partner Portal
         </button>
       </form>
     </AuthCard>
