@@ -1,7 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
 import { Briefcase, LogOut, Users, TrendingUp, Coins } from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
 import { SiteNav } from "@/components/SiteNav";
 
 export const Route = createFileRoute("/partner/dashboard")({
@@ -10,24 +8,7 @@ export const Route = createFileRoute("/partner/dashboard")({
 });
 
 function PartnerDashboard() {
-  const { user, roles, loading, signOut } = useAuth();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (loading) return;
-    if (!user) {
-      navigate({ to: "/partner-login" });
-      return;
-    }
-    const allowed = roles.includes("partner") || roles.includes("admin");
-    if (!allowed && roles.length > 0) {
-      navigate({ to: "/dashboard" });
-    }
-  }, [loading, user, roles, navigate]);
-
-  if (loading || !user) {
-    return <div className="min-h-screen grid place-items-center text-muted-foreground">Loading…</div>;
-  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -42,7 +23,7 @@ function PartnerDashboard() {
               Your <em className="text-primary">partnership</em> at a glance.
             </h1>
             <button
-              onClick={async () => { await signOut(); navigate({ to: "/" }); }}
+              onClick={() => navigate({ to: "/" })}
               className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-muted"
             >
               <LogOut className="h-4 w-4" /> Sign out
@@ -68,7 +49,7 @@ function PartnerDashboard() {
           ))}
         </div>
         <div className="mx-auto max-w-7xl px-6 mt-10 rounded-3xl border border-dashed border-border p-10 text-center text-muted-foreground">
-          Partner workflows (referrals, commissions, co-branded filings) will live here.
+          Demo partner dashboard — connect a backend to enable real referrals, commissions and co-branded filings.
         </div>
       </section>
     </div>
