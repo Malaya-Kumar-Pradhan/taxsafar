@@ -7,7 +7,7 @@ import {
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
-import heroTeam from "@/assets/hero-team.png";
+import heroTeam from "@/assets/sales.png";
 
 export const Route = createFileRoute("/")({
   component: Home,
