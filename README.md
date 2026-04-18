@@ -39,3 +39,57 @@ Ensure you have the following installed on your machine:
    ```bash
    git clone [https://github.com/Malaya-Kumar-Pradhan/taxsafar.git](https://github.com/Malaya-Kumar-Pradhan/taxsafar.git)
    cd taxsafar
+   ```
+2. **Install dependencies:**
+   ```bash
+   bun install
+   ```
+3. **Set up Environment Variables:**
+   ```bash
+   VITE_SUPABASE_URL=your_supabase_project_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
+4. **Start the development server:**
+   ```bash
+   bun run dev
+   ```
+# 📂 Project Structure
+
+- **/src/components** – Reusable UI components (buttons, dialogs, navbars, footers). Includes a rich set of **Radix UI primitives**.  
+- **/src/routes** – File-based routing handled by **TanStack Router** (e.g., `index.tsx`, `dashboard.tsx`, `partner-login.tsx`).  
+- **/src/integrations/supabase** – Supabase client initialization, authentication hooks, and generated TypeScript database types.  
+- **/supabase/migrations** – SQL migration files for setting up the Supabase database schema.  
+- **vercel.json** – Configuration for deploying as a Single Page Application (SPA) on Vercel.  
+
+---
+
+# 📜 Available Scripts
+
+The following npm scripts are defined in the `package.json`:
+
+- **bun run dev** – Starts the Vite development server.  
+- **bun run build** – Compiles and bundles the application into the `dist` directory for production.  
+- **bun run preview** – Boots up a local web server to preview your production build.  
+- **bun run lint** – Runs ESLint to check for code quality and errors.  
+- **bun run format** – Uses Prettier to format the codebase.  
+
+---
+
+# 🚀 Deployment
+
+This project is configured as a **Single Page Application (SPA)**.  
+When deploying to hosting providers like **Vercel** or **Render**, ensure that all unmatched routes are redirected to `index.html` to allow **TanStack Router** to handle navigation.
+
+- **Vercel**: Works out of the box using the included `vercel.json` file.  
+- **Render**: Add a Rewrite rule in your Render dashboard:  
+  - **Source**: `/*`  
+  - **Destination**: `/index.html`  
+  - **Action**: Rewrite  
+
+⚙️ Make sure to add the following environment variables before deploying:  
+- `VITE_SUPABASE_URL`  
+- `VITE_SUPABASE_ANON_KEY`  
+
+---
+
+### Built with ❤️ by **Malaya Kumar Pradhan**
