@@ -7,7 +7,6 @@ import {
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
-import heroTeam from "@/assets/sales.png";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -128,9 +127,9 @@ function Home() {
               }}
             >
               <img
-                src={heroTeam}
+                src="https://res.cloudinary.com/dcsg1cjnt/image/upload/v1776514052/sales_isuver.webp"
                 alt="Taxsafar chartered accountant team"
-                className="absolute inset-x-0 bottom-0 w-full h-full object-contain object-bottom"
+                className="absolute inset-x-0 bottom-0 w-full h-full object-cover"
                 width={1024}
                 height={1280}
               />
