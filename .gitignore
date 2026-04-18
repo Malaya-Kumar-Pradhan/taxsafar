@@ -34,3 +34,4 @@ dist-ssr
 bun.lockb
 bun.lock
 bunfig.toml
+.env
